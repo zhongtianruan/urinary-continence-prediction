@@ -13,6 +13,37 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import pickle
+# VERIFY ENVIRONMENT
+import sys, os
+
+# 打印关键信息到日志
+print(f"Python version: {sys.version}")
+print(f"Platform: {sys.platform}")
+print(f"Current working directory: {os.getcwd()}")
+print(f"Directory contents: {os.listdir()}")
+
+# 打印已安装的包列表
+print("Installed packages:")
+os.system("pip freeze > pip_freeze.log")
+with open("pip_freeze.log", "r") as f:
+    for line in f.readlines()[:20]:  # 打印前20个包
+        print(line.strip())
+
+# 显式尝试导入 shap
+try:
+    import shap
+    print("SHAP successfully imported!")
+except ImportError as e:
+    print(f"Failed to import SHAP: {str(e)}")
+    # 尝试手动安装
+    os.system("pip install shap==0.45.1 --force-reinstall --no-cache-dir")
+    
+    # 再次尝试
+    try:
+        import shap
+        print("SHAP installed after retry!")
+    except Exception as e2:
+        print(f"Permanent SHAP installation failure: {str(e2)}")
 import shap
 import matplotlib
 matplotlib.use('Agg')  # HEADLESS MODE
